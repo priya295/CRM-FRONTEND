@@ -197,7 +197,6 @@ const Task = () => {
     }
   }
 
-
   let subtitle;
   const [taskName, setTaskName] = useState();
   const [startDate, setStartDate] = useState();
@@ -211,7 +210,6 @@ const Task = () => {
   const [selectedTaskStatusId, setSelectedTaskStatusId] = useState(""); // State for selected task status ID
   const [selectedTaskPriorityId, setSelectedTaskPriorityId] = useState(""); // Stores the selected priority ID as a string
   const [selectedStaffIds, setSelectedStaffIds] = useState([]); // Array to hold selected staff IDs
-
 
   async function submitTask() {
     console.log(selectedTaskStatusId)
@@ -227,7 +225,7 @@ const Task = () => {
       openToast("Add Task Successfully", "success")
     }
     else {
-      openToast("Internal Server Error", "error")
+      openToast("Task Not Added")
     }
   }
 

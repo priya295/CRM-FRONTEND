@@ -414,7 +414,7 @@ const Clients = () => {
 
           <Link
             to="/contact-information"
-            className="text-[#000] text-[14px] client-add focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-[#27004a] dark:hover:bg-[#27004a] dark:focus:ring-bg-[#27004a]"
+            className="text-white text-[14px] client-add focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-[#27004a] dark:hover:bg-[#27004a] dark:focus:ring-bg-[#27004a]"
           >
             <PersonIcon className="newadd mr-[5px]" />
             Contacts
