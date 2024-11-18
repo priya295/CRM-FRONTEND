@@ -17,8 +17,8 @@ const Main = () => {
   const [roles, setRoles] = useState([])
   const [exportFormat, setExportFormat] = useState('');
   const [rowsToShow, setRowsToShow] = useState(25);
-  const [searchRoleName, setSearchRoleName] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [searchRoleName , setSearchRoleName] = useState('');
+  const [isLoading , setIsLoading] = useState(false);
 
   const handleSelectChange = (event) => {
     setRowsToShow(Number(event.target.value));
@@ -59,7 +59,9 @@ const Main = () => {
 
   const fetchRoles = async () => {
     setIsLoading(true);
-    try {
+   
+    try{
+      const result = await fetch(baseUrl + "role")
       if (result.status == 200) {
         const res = await result.json();
         setRoles(res.data)
@@ -68,12 +70,12 @@ const Main = () => {
         alert("An Error Occured")
       }
     }
-    catch (error) {
-      console.log("error:", error);
-    }
-    finally {
-      setIsLoading(false);
-    }
+  catch(error){
+    console.log("error:" , error);
+  } 
+   finally{
+    setIsLoading(false);
+   }
 
   }
 
@@ -104,8 +106,8 @@ const Main = () => {
 
   const handleSearchRole = async () => {
     const queryParams = new URLSearchParams({
-      role_name: searchRoleName
-
+    role_name : searchRoleName
+     
     }).toString();
     setIsLoading(true);
     try {
@@ -116,16 +118,16 @@ const Main = () => {
         console.log(result);
         setRoles(result);
       } else {
-        console.log("error while fetching Roles")
+         console.log("error while fetching Roles")
       }
     } catch (error) {
       console.error('Error searching Roles:', error);
     }
-    finally {
+    finally{
       setIsLoading(false);
     }
   };
-
+  
   // Debounced search effect
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -134,11 +136,11 @@ const Main = () => {
       } else {
         fetchRoles(); // Fetch all projects if search input is cleared
       }
-    }, 3000);
-
+    }, 3000); 
+  
     return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
   }, [searchRoleName]);
-
+  
   return (
     <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4 pt-[10px]'>
       <Link to="/addrole" className='bg-[#27004a]  p-2 pr-3 rounded-lg text-white '> <AddIcon /> New Role</Link>
@@ -176,7 +178,7 @@ const Main = () => {
 
           <div className='right-side relative  w-[200px]'>
             <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
-] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' onChange={(e) => { setSearchRoleName(e.target.value) }} />
+] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' onChange={(e)=>{setSearchRoleName(e.target.value)}}/>
             <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
 ]'/>
           </div>
@@ -192,43 +194,44 @@ const Main = () => {
           <tbody>
 
 
-            {
-              isLoading && roles.length === 0 ? (
-                <tr className="h-[100px]">
-                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
-                    <ClipLoader color="#4A90E2" size={50} />
-                  </td>
-                </tr>
-              ) : roles.length > 0 ? (
-                roles.slice(0, rowsToShow).map((role, index) => {
-                  return (
-                    <tr key={role.id} className="border-b pb-2 border-[#f1f5f9]">
-                      <td className="pt-4 pb-3 pl-3">
-                        <Link to="/" className="text-[#27004a] text-[14px]">{role.role_name}</Link>
-                        <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6>
-                      </td>
-                      <td className="flex pt-4 gap-2 justify-center">
-                        <Link to="/editrole" onClick={() => {
-                          setRoleId(role.id)
-                          setRoleName(role.role_name)
-                          setEditPermissions(role.permissions)
-                        }}>
-                          <BorderColorIcon className="text-[#511992] font-light cursor-pointer text-[10px]]" />
-                        </Link>
-                        <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
-                      </td>
-                    </tr>
-                  )
-                })
-              ) : (
-                <tr className="h-[100px]">
-                  <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
-                    No roles found.
-                  </td>
-                </tr>
-              )
-            }
-          </tbody>
+          {
+    isLoading && roles.length === 0 ? (
+      <tr className="h-[100px]">
+          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+          <ClipLoader color="#4A90E2" size={50} />
+          </td>
+        </tr>
+    ) : roles.length > 0 ? (
+      roles.slice(0, rowsToShow).map((role, index) => {
+        return (
+          <tr key={role.id} className="border-b pb-2 border-[#f1f5f9]">
+            <td className="pt-4 pb-3 pl-3">
+              <Link to="/" className="text-[#27004a] text-[14px]">{role.role_name}</Link>
+              <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6>
+            </td>
+            <td className="flex pt-4 gap-2 justify-center">
+              <Link to="/editrole" onClick={() => {
+                setRoleId(role.id)
+                setRoleName(role.role_name)
+                setEditPermissions(role.permissions)
+              }}>
+                <BorderColorIcon className="text-[#511992] font-light cursor-pointer text-[10px]]" />
+              </Link>
+              <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
+            </td>
+          </tr>
+        )
+      })
+    ) : (
+      <tr className="h-[100px]">
+        <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
+          No roles found.
+        </td>
+      </tr>
+    )
+  }
+
+</tbody>
         </table>
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {roles.length} entries </p>
